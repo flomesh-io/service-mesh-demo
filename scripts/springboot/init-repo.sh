@@ -24,7 +24,6 @@ curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/inbound/circuit-br
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/main.json --data-binary '@./config/main.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/router.json --data-binary '@./config/router.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/balancer.json --data-binary '@./config/balancer.json'
-curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/eureka.json --data-binary '@./config/eureka.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/throttle.json --data-binary '@./config/inbound/throttle.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/ban.json --data-binary '@./config/inbound/ban.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/logger.json --data-binary '@./config/logger.json'

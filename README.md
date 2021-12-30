@@ -51,7 +51,7 @@ Update clickhouse address in [logger.json](scripts/springboot/config/logger.json
 
 ### 1.3. Prepare manifest
 
-Do kustomize build. Skip this if nothing change.
+Do kustomize build. Skip this if nothing change. First of all, make sure the `jq` cli installed.
 
 ```shell
 kustomize build --load-restrictor LoadRestrictionsNone config/repo -o artifacts/pipy-repo.yaml
