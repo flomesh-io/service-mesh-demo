@@ -6,6 +6,7 @@ REPO_HOST=localhost:30060
 REPO_NAME=bookinfo
 
 version=`curl -s http://$REPO_HOST/api/v1/repo/springboot | jq -r .version`
+version=$(( version+1 ))
 # create repo
 # curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME --data '{"version":'$version',"base":"/springboot"}'
@@ -14,15 +15,13 @@ curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/main.js --data-binary '@./
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/router.js --data-binary '@./plugins/router.js'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/registry.js --data-binary '@./plugins/registry.js'
 
-#config
+# config
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/router.json --data-binary '@./config/router.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/registry.json --data-binary '@./config/registry.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/throttle.json --data-binary '@./config/inbound/throttle.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/ban.json --data-binary '@./config/inbound/ban.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/circuit-breaker.json --data-binary '@./config/inbound/circuit-breaker.json'
-#release
 # release
-version=$(( version+1 ))
 baseReq='{"version":'$version',"base":"/bookinfo"}'
 
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME --data '{"version": '$version'}'
