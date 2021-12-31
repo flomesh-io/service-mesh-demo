@@ -14,6 +14,6 @@ spec:
           args:
             - |-
               until nc -vz samples-discovery-server 8761; \
-                do echo "Waiting for API Gateway ready ..."; \
+                do echo "Waiting for Discovery Service ready ..."; \
                 sleep 5; \
               done;
