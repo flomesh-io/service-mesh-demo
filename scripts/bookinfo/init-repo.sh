@@ -5,7 +5,7 @@ set -exu
 REPO_HOST=localhost:30060
 REPO_NAME=bookinfo
 
-version=(`curl -s http://$REPO_HOST/api/v1/repo/$REPO_NAME | jq -r .version`) || (`curl -s http://$REPO_HOST/api/v1/repo/springboot | jq -r .version`) || 1
+version=`curl -s http://$REPO_HOST/api/v1/repo/springboot | jq -r .version`
 # create repo
 # curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME --data '{"version":'$version',"base":"/springboot"}'
