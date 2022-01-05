@@ -140,6 +140,8 @@ Sample:
 }
 ```
 
+Access review service via gateway and we use *wrk* to simulate requests, `wrk -c5 -t5 -d10s --latency http://localhost:30010/bookinfo-reviews/reviews/2099a055-1e21-46ef-825e-9e0de93554ea`.
+
 ### 2.3. Circuit breaker
 
 Implemented in service provider side.
