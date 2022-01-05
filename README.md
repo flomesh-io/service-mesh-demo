@@ -163,6 +163,8 @@ Implemented in service provider side.
 }
 ```
 
+Update `enabled` to `false` and execute `curl -i http://localhost:30010/bookinfo-reviews/reviews/2099a055-1e21-46ef-825e-9e0de93554ea`. You will get 503 response.
+
 ### 2.4. Black/White List & ACL
 
 Implemented in service provider side.
@@ -182,6 +184,10 @@ Implemented in service provider side.
   }
 }
 ```
+
+With config above, you should get 403 forbidden response if attempting to execute `curl -i http://localhost:30010/bookinfo-ratings/ratings/2099a055-1e21-46ef-825e-9e0de93554ea`.
+
+Once remove `samples-api-gateway` from blacklist, will get 200 response with correct rating data.
 
 ### 2.5. Logging
 
