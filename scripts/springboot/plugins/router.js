@@ -20,7 +20,7 @@ pipy({
               ) : null,
                 routes: new algo.RoundRobinLoadBalancer(Object.fromEntries(
                   h.routes.map(
-                    r => [r.service, r.weight != null ? r.weight : 100]
+                    r => [r.service, r.weight !== null ? r.weight : 100]
                   )
                 ))
               }
