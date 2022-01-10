@@ -152,7 +152,7 @@ Implemented in service provider side.
 ```json
 {
   "services": {
-    "samples-api-gateway": {
+    "samples-bookinfo-details": {
       "enabled": false
     }
   },
@@ -165,7 +165,7 @@ Implemented in service provider side.
 }
 ```
 
-Update `enabled` to `false` and execute `curl -i http://localhost:30010/bookinfo-reviews/reviews/2099a055-1e21-46ef-825e-9e0de93554ea`. You will get 503 response.
+Update `enabled` to `false` and execute `curl -is http://localhost:30010/bookinfo-details/details/2099a055-1e21-46ef-825e-9e0de93554ea`. You will get 503 response.
 
 ### 2.4. Black/White List & ACL
 

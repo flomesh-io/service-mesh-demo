@@ -1,6 +1,6 @@
 {
   "services": {
-    "samples-api-gateway": {
+    "samples-bookinfo-details": {
       "enabled": false
     }
   },
