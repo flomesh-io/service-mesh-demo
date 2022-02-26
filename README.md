@@ -57,6 +57,7 @@ Do kustomize build. Skip this if nothing change. First of all, make sure the `jq
 kustomize build --load-restrictor LoadRestrictionsNone config/repo -o artifacts/pipy-repo.yaml
 kustomize build --load-restrictor LoadRestrictionsNone config/springboot -o artifacts/springboot.yaml
 kustomize build --load-restrictor LoadRestrictionsNone config/bookinfo -o artifacts/bookinfo.yaml
+kustomize build --load-restrictor LoadRestrictionsNone config/dubbo -o artifacts/dubbo.yaml
 ```
 ### 1.4. Setup pipy repo
 

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-important
+spec:
+  template:
+    spec:
+      containers:    
+        - name: app
+          # imagePullPolicy: Alwayskuskus
+          command:
+          - sh
+          - -c
+          - |-
+            proxychains4 -f /proxychains/proxychains.conf \
+              java -Xms512m -Xmx1024m \
+              -Djava.security.egd=file:/dev/./urandom \
+              -jar /app.jar
+          volumeMounts:
+            - name: proxy-cfg
+              mountPath: /proxychains
+      volumes:
+        - name: proxy-cfg
+          configMap:
+            name: proxychains-cfg

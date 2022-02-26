@@ -41,7 +41,7 @@ spec:
         - -c
         - |
           /usr/local/bin/pipy --admin-port=6060
-        image: flomesh/pipy-pjs:0.4.0-263
+        image: flomesh/pipy-pjs:0.4.0-328
         name: repo
         ports:
         - containerPort: 6060
