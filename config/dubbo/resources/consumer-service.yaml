@@ -1,3 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: consumer-service
+    app.flomesh.io/type: dubbo
+    sidecar-injected: "true"
+  name: consumer-service
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30088
+  selector:
+    app: consumer-service
+    app.flomesh.io/type: dubbo
+  type: NodePort
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

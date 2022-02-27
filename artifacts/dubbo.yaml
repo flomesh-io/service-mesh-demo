@@ -24,6 +24,27 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
+    app: consumer-service
+    app.flomesh.io/type: dubbo
+    sidecar-injected: "true"
+  name: consumer-service
+  namespace: dubbo
+spec:
+  ports:
+  - nodePort: 30088
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: consumer-service
+    app.flomesh.io/type: dubbo
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
     app: zookeeper
     app.flomesh.io/type: dubbo
   name: zookeeper
@@ -143,7 +164,7 @@ spec:
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-consumer-svc:1.0.0-dubbo
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: app
         ports:
         - containerPort: 20880
@@ -274,7 +295,7 @@ spec:
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-date-svc:1.0.0-dubbo
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: app
         ports:
         - containerPort: 20880
@@ -405,7 +426,7 @@ spec:
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-hello-svc:1.0.0-dubbo
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: app
         ports:
         - containerPort: 20880
@@ -536,7 +557,7 @@ spec:
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-time-svc:1.0.0-dubbo
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: app
         ports:
         - containerPort: 20880

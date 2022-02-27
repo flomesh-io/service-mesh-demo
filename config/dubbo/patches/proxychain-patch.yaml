@@ -7,7 +7,7 @@ spec:
     spec:
       containers:    
         - name: app
-          imagePullPolicy: Always
+          # imagePullPolicy: Always
           command:
           - sh
           - -c
