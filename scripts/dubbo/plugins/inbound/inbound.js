@@ -5,7 +5,7 @@ pipy({
 .pipeline('request')
   .mux('connection', '')
 
-.pipeline('connection')  
+.pipeline('connection')
   .encodeDubbo()
   .connect(
     () =>  _target

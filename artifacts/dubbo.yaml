@@ -122,16 +122,28 @@ spec:
         - -c
         - |-
           proxychains4 -f /proxychains/proxychains.conf \
-            java -Xms512m -Xmx1024m \
+            java -javaagent:/opentelemetry-javaagent.jar \
+            -Dotel.traces.exporter=logging \
+            -Dotel.metrics.exporter=none \
+            -Dotel.propagators=tracecontext,baggage,b3multi \
+            -Dotel.resource.attributes="service.name=${SERVICE_NAME}" \
+            -Dotel.javaagent.debug=false \
+            -Djava.security.egd=file:/dev/./urandom \
+            -Xms512m -Xmx1024m \
             -Djava.security.egd=file:/dev/./urandom \
             -jar /app.jar
         env:
+        - name: SERVICE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.annotations['app.flomesh.io/name']
         - name: SAMPLES_ZK_HOSTNAME
           value: zookeeper
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-consumer-svc:1.0.0-dubbo
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: app
         ports:
         - containerPort: 20880
@@ -241,16 +253,28 @@ spec:
         - -c
         - |-
           proxychains4 -f /proxychains/proxychains.conf \
-            java -Xms512m -Xmx1024m \
+            java -javaagent:/opentelemetry-javaagent.jar \
+            -Dotel.traces.exporter=logging \
+            -Dotel.metrics.exporter=none \
+            -Dotel.propagators=tracecontext,baggage,b3multi \
+            -Dotel.resource.attributes="service.name=${SERVICE_NAME}" \
+            -Dotel.javaagent.debug=false \
+            -Djava.security.egd=file:/dev/./urandom \
+            -Xms512m -Xmx1024m \
             -Djava.security.egd=file:/dev/./urandom \
             -jar /app.jar
         env:
+        - name: SERVICE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.annotations['app.flomesh.io/name']
         - name: SAMPLES_ZK_HOSTNAME
           value: zookeeper
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-date-svc:1.0.0-dubbo
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: app
         ports:
         - containerPort: 20880
@@ -360,16 +384,28 @@ spec:
         - -c
         - |-
           proxychains4 -f /proxychains/proxychains.conf \
-            java -Xms512m -Xmx1024m \
+            java -javaagent:/opentelemetry-javaagent.jar \
+            -Dotel.traces.exporter=logging \
+            -Dotel.metrics.exporter=none \
+            -Dotel.propagators=tracecontext,baggage,b3multi \
+            -Dotel.resource.attributes="service.name=${SERVICE_NAME}" \
+            -Dotel.javaagent.debug=false \
+            -Djava.security.egd=file:/dev/./urandom \
+            -Xms512m -Xmx1024m \
             -Djava.security.egd=file:/dev/./urandom \
             -jar /app.jar
         env:
+        - name: SERVICE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.annotations['app.flomesh.io/name']
         - name: SAMPLES_ZK_HOSTNAME
           value: zookeeper
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-hello-svc:1.0.0-dubbo
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: app
         ports:
         - containerPort: 20880
@@ -479,16 +515,28 @@ spec:
         - -c
         - |-
           proxychains4 -f /proxychains/proxychains.conf \
-            java -Xms512m -Xmx1024m \
+            java -javaagent:/opentelemetry-javaagent.jar \
+            -Dotel.traces.exporter=logging \
+            -Dotel.metrics.exporter=none \
+            -Dotel.propagators=tracecontext,baggage,b3multi \
+            -Dotel.resource.attributes="service.name=${SERVICE_NAME}" \
+            -Dotel.javaagent.debug=false \
+            -Djava.security.egd=file:/dev/./urandom \
+            -Xms512m -Xmx1024m \
             -Djava.security.egd=file:/dev/./urandom \
             -jar /app.jar
         env:
+        - name: SERVICE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.annotations['app.flomesh.io/name']
         - name: SAMPLES_ZK_HOSTNAME
           value: zookeeper
         - name: SAMPLES_ZK_PORT
           value: "2181"
         image: flomesh/samples-time-svc:1.0.0-dubbo
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: app
         ports:
         - containerPort: 20880

@@ -1,7 +1,7 @@
 {
   "serviceIDs": {
     "io.flomesh.demo.dubbo.api.DemoHelloService:sayHello(Ljava/lang/String;)": {
-      "enabled": true,
+      "enabled": false,
       "response": {
         "status": 20,
         "code": 4,

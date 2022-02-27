@@ -15,6 +15,7 @@ pipy({
     )
   ),
   _iface: null,
+  _requestCounter: new stats.Counter('dubbo_ban_denied', ['service', 'version'])
 })
 
 .import({
@@ -34,7 +35,8 @@ pipy({
         ) : (
           _iface.black?.[__service.remote]
         )
-      )
+      ),
+      __turnDown && _requestCounter.withLabels(__serviceID, __serviceID.version).increase()
     )
   )
   .replaceMessage(
