@@ -35,7 +35,7 @@ version=(`curl -s http://$REPO_HOST/api/v1/repo/$REPO_NAME | jq -r .version`) ||
 version=$(( version+1 ))
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME --data '{"version": '$version'}'
 
-baseReq='{"version":'$version',"base":'$REPO_NAME'}'
+baseReq='{"version":'$version',"base":"/dubbo"}'
 
 curl -X POST http://$REPO_HOST/api/v1/repo/consumer-service --data $baseReq
 curl -X POST http://$REPO_HOST/api/v1/repo/hello-service --data $baseReq
