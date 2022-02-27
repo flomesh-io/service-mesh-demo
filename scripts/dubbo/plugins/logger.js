@@ -54,37 +54,39 @@
       msg => (
         (reqBody, attachments) => (
           reqBody = Hessian.decode(_request.body),
-          attachments = reqBody.pop(),
-          new Message(
-            JSON.encode({
-              req: {
-                ..._request.head,
-                body: reqBody,
-              },
-              res: {
-                ...msg.head,
-                body: Hessian.decode(msg.body),
-              },
-              reqTime: _requestTime,
-              resTime: _responseTime,
-              reqSize: _request.body.size,
-              resSize: msg.body.size,
-              endTime: Date.now(),
-              remoteAddr: __inbound.remoteAddress && __inbound.remoteAddress.replace('::ffff:', ''),
-              remotePort: __inbound.remotePort,
-              localAddr: __inbound.localAddress && __inbound.localAddress.replace('::ffff:', ''),
-              localPort: __inbound.localPort,
-              node: _NODE_INFO,
-              pod: _POD_INFO,
-              service: _SERVICE_INFO,          
-              trace: {
-              id: attachments?.['X-B3-TraceId'],
-              span: attachments?.['X-B3-SpanId'],
-              parent: attachments?.['traceparent'],
-              sampled: attachments?.['X-B3-Sampled']
-              },
-              ...__logInfo,
-            }).push('\n')
+          reqBody && (
+            attachments = reqBody.pop(),
+            new Message(
+              JSON.encode({
+                req: {
+                  ..._request.head,
+                  body: reqBody,
+                },
+                res: {
+                  ...msg.head,
+                  body: Hessian.decode(msg.body),
+                },
+                reqTime: _requestTime,
+                resTime: _responseTime,
+                reqSize: _request.body.size,
+                resSize: msg.body.size,
+                endTime: Date.now(),
+                remoteAddr: __inbound.remoteAddress && __inbound.remoteAddress.replace('::ffff:', ''),
+                remotePort: __inbound.remotePort,
+                localAddr: __inbound.localAddress && __inbound.localAddress.replace('::ffff:', ''),
+                localPort: __inbound.localPort,
+                node: _NODE_INFO,
+                pod: _POD_INFO,
+                service: _SERVICE_INFO,          
+                trace: {
+                id: attachments?.['X-B3-TraceId'],
+                span: attachments?.['X-B3-SpanId'],
+                parent: attachments?.['traceparent'],
+                sampled: attachments?.['X-B3-Sampled']
+                },
+                ...__logInfo,
+              }).push('\n')
+            )
           )
         )
       )()

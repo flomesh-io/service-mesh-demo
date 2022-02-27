@@ -38,12 +38,12 @@ pipy({
     () => _target = `${__outboundAddr}:${__outboundPort+1}`
   )
   .mux('forward', () => _targetCache.get(_target))
-  .handleMessage(
-    msg => (
-      console.log(`msg.head: ${JSON.stringify(msg.head)}`),
-      console.log(`msg.body: ${JSON.stringify(Hessian.decode(msg.body))}`)
-    )
-  )
+  // .handleMessage(
+  //   msg => (
+  //     console.log(`msg.head: ${JSON.stringify(msg.head)}`),
+  //     console.log(`msg.body: ${JSON.stringify(Hessian.decode(msg.body))}`)
+  //   )
+  // )
 .pipeline('forward')
   .encodeDubbo()
   .connect(

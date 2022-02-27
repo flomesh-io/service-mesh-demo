@@ -23,7 +23,7 @@ pipy({
         version = reqBody?.[2],
         method = reqBody?.[3],
         args = reqBody?.[4] || '',
-        attachments = reqBody.pop(),
+        attachments = reqBody?.pop && reqBody.pop(),
         (iface != undefined && method != undefined) ? (
           __service = {
             iface: iface,
