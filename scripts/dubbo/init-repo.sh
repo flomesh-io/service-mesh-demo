@@ -18,8 +18,7 @@ curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/main.js --data-binary '@./
 # plugins
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/router.js --data-binary '@./plugins/router.js'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/forward.js --data-binary '@./plugins/forward.js'
-curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/eureka.js --data-binary '@./plugins/eureka.js'
-curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/metrics.js --data-binary '@./plugins/metrics.js'
+curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/metric.js --data-binary '@./plugins/metric.js'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/logger.js --data-binary '@./plugins/logger.js'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/circuit-breaker.js --data-binary '@./plugins/circuit-breaker.js'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/inbound/inbound.js --data-binary '@./plugins/inbound/inbound.js'
@@ -27,7 +26,6 @@ curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/inbound/throttle.j
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/plugins/inbound/ban.js --data-binary '@./plugins/inbound/ban.js'
 # config
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/main.json --data-binary '@./config/main.json'
-curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/router.json --data-binary '@./config/router.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/throttle.json --data-binary '@./config/inbound/throttle.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/ban.json --data-binary '@./config/inbound/ban.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/logger.json --data-binary '@./config/logger.json'
