@@ -30,6 +30,9 @@ curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/throttle.js
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/inbound/ban.json --data-binary '@./config/inbound/ban.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/logger.json --data-binary '@./config/logger.json'
 curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/config/circuit-breaker.json --data-binary '@./config/circuit-breaker.json'
+# task
+curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/tasks/status.js --data-binary '@./tasks/status.js'
+curl -X POST http://$REPO_HOST/api/v1/repo/$REPO_NAME/tasks/heartbeat.js --data-binary '@./tasks/heartbeat.js'
 # release
 version=(`curl -s http://$REPO_HOST/api/v1/repo/$REPO_NAME | jq -r .version`) || 1
 version=$(( version+1 ))
