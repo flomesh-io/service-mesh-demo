@@ -8,7 +8,7 @@ Table of Content:
   * [1.6. Deploy bookinfo apps](#16-deploy-bookinfo-apps)
   * [1.7. Deploy dubbo apps](#17-deploy-dubbo-apps)
 * [2. Demo Application Introduction](#2-demo-application-introduction)
-* [3.  Springboot/Bookinfo Operating](#3--springbootbookinfo-operating)
+* [3. Springboot/Bookinfo Operating](#3-springbootbookinfo-operating)
   * [3.1. Canary](#31-canary)
     * [3.1.1. SpringBoot](#311-springboot)
     * [3.1.2. Istio bookinfo](#312-istio-bookinfo)
@@ -23,7 +23,7 @@ Table of Content:
   * [5.1. Logging](#51-logging)
   * [5.2. Tracing](#52-tracing)
   * [5.3. Metrics](#53-metrics)
-* [6. More](#6-more)
+* [6. FAQ](#6-faq)
   * [6.1. How to access Pipy Repo?](#61-how-to-access-pipy-repo)
 
 ## 1. Setup
@@ -125,13 +125,18 @@ kubectl apply -f artifacts/dubbo.yaml
 ## 2. Demo Application Introduction
 
 **SpringBoot Bookinfo**
+
 ![](docs/flomesh-poc-1.png)
+
 **Istio Bookinfo**
+
 ![](docs/flomesh-poc-2.png)
+
 **Dubbo**
+
 ![](docs/flomesh-poc-3.png)
 
-## 3.  Springboot/Bookinfo Operating
+## 3. Springboot/Bookinfo Operating
 
 ### 3.1. Canary
 
@@ -320,7 +325,7 @@ Implementing with OpenTelemetry. Logged together with req/res log, and stored in
 
 Extract metrcis from Clickhouse and display via Grafana.
 
-## 6. More
+## 6. FAQ
 
 ### 6.1. How to access Pipy Repo?
 
