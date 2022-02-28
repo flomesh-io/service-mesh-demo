@@ -2,7 +2,7 @@
 
 set -exu
 #### local repo
-REPO_HOST=localhost:30060
+REPO_HOST=192.168.1.5:30060
 REPO_NAME=dubbo
 
 # check pipy repo running

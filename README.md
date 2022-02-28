@@ -6,18 +6,25 @@ Table of Content:
   * [1.4. Setup pipy repo](#14-setup-pipy-repo)
   * [1.5. Deploy springboot apps](#15-deploy-springboot-apps)
   * [1.6. Deploy bookinfo apps](#16-deploy-bookinfo-apps)
-* [2. Operating](#2-operating)
-  * [2.1. Canary](#21-canary)
-    * [2.1.1. SpringBoot](#211-springboot)
-    * [2.1.2. Istio bookinfo](#212-istio-bookinfo)
-  * [2.2. Rate Limit](#22-rate-limit)
-  * [2.3. Circuit breaker](#23-circuit-breaker)
-  * [2.4. Black/White List & ACL](#24-blackwhite-list--acl)
-  * [2.5. Logging](#25-logging)
-  * [2.6. Tracing](#26-tracing)
-  * [2.7. Metrics](#27-metrics)
-* [3. More](#3-more)
-  * [3.1. How to access Pipy Repo?](#31-how-to-access-pipy-repo)
+  * [1.7. Deploy dubbo apps](#17-deploy-dubbo-apps)
+* [2. Demo Application Introduction](#2-demo-application-introduction)
+* [3.  Springboot/Bookinfo Operating](#3--springbootbookinfo-operating)
+  * [3.1. Canary](#31-canary)
+    * [3.1.1. SpringBoot](#311-springboot)
+    * [3.1.2. Istio bookinfo](#312-istio-bookinfo)
+  * [3.2. Rate Limit](#32-rate-limit)
+  * [3.3. Circuit breaker](#33-circuit-breaker)
+  * [3.4. Black/White List & ACL](#34-blackwhite-list--acl)
+* [4. Dubbo Operating](#4-dubbo-operating)
+  * [4.1. Rate Limit](#41-rate-limit)
+  * [4.2. Cricuit Breaker](#42-cricuit-breaker)
+  * [4.3. Black/White List & ACL](#43-blackwhite-list--acl)
+* [5. Observability](#5-observability)
+  * [5.1. Logging](#51-logging)
+  * [5.2. Tracing](#52-tracing)
+  * [5.3. Metrics](#53-metrics)
+* [6. More](#6-more)
+  * [6.1. How to access Pipy Repo?](#61-how-to-access-pipy-repo)
 
 ## 1. Setup
 
@@ -89,6 +96,14 @@ pushd scripts/bookinfo
 popd
 ```
 
+**Init dubbo codebase**
+
+```shell
+pushd scripts/dubbo
+./init-repo.sh
+popd
+```
+
 ### 1.5. Deploy springboot apps
 
 ```shell
@@ -101,20 +116,35 @@ kubectl apply -f artifacts/springboot.yaml
 kubectl apply -f artifacts/bookinfo.yaml
 ```
 
-## 2. Operating
+### 1.7. Deploy dubbo apps
 
-### 2.1. Canary
+```shell
+kubectl apply -f artifacts/dubbo.yaml
+```
+
+## 2. Demo Application Introduction
+
+**SpringBoot Bookinfo**
+![](docs/flomesh-poc-1.png)
+**Istio Bookinfo**
+![](docs/flomesh-poc-2.png)
+**Dubbo**
+![](docs/flomesh-poc-3.png)
+
+## 3.  Springboot/Bookinfo Operating
+
+### 3.1. Canary
 
 Currently, match supports `header`, `method` and `path`. All of them supports regular expression. 
 
-#### 2.1.1. SpringBoot
+#### 3.1.1. SpringBoot
 
 * Firefox: show rating
 * Others: no rating
 
 Config: [router.json](scripts/springboot/config/router.json)
 
-#### 2.1.2. Istio bookinfo
+#### 3.1.2. Istio bookinfo
 
 * Firefox: show blacking rating
 * Chrome: show red rating
@@ -122,7 +152,7 @@ Config: [router.json](scripts/springboot/config/router.json)
 
 Config: [router.json](scripts/bookinfo/config/router.json)
 
-### 2.2. Rate Limit
+### 3.2. Rate Limit
 
 Implemented in service provider side.
 
@@ -143,7 +173,7 @@ Sample:
 
 Access review service via gateway and we use *wrk* to simulate requests, `wrk -c5 -t5 -d10s --latency http://localhost:30010/bookinfo-reviews/reviews/2099a055-1e21-46ef-825e-9e0de93554ea`.
 
-### 2.3. Circuit breaker
+### 3.3. Circuit breaker
 
 Implemented in service provider side.
 
@@ -168,7 +198,7 @@ Implemented in service provider side.
 
 Update `enabled` to `false` and execute `curl -is http://localhost:30010/bookinfo-details/details/2099a055-1e21-46ef-825e-9e0de93554ea`. You will get 503 response.
 
-### 2.4. Black/White List & ACL
+### 3.4. Black/White List & ACL
 
 Implemented in service provider side.
 
@@ -192,21 +222,107 @@ With config above, you should get 403 forbidden response if attempting to execut
 
 Once remove `samples-api-gateway` from blacklist, will get 200 response with correct rating data.
 
-### 2.5. Logging
+## 4. Dubbo Operating
+
+There is a HTTP endpoint exposing by *Consumer Service* which ouputing current date and time.
+
+```shell
+curl -i --location --request POST '43.129.176.183:30088/hello' --header 'Content-Type: application/json' --header 'Accept: text/plain' --data-raw '{"name": "world"}'
+
+HTTP/1.1 200
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 80
+Date: Sun, 27 Feb 2022 13:23:42 GMT
+
+V1-[hello-service] : Hello, world, Today is (2022-02-27), Time is (13:23:42.739)
+```
+
+### 4.1. Rate Limit
+
+Update the config in [throttle.json](scripts/dubbo/config/inbound/throttle.json). The current setting of request rating is `10`.
+
+We do request simulating with wrk too. Since the endpoint is one *POST* one, we need to prepare a Lua script first:
+
+```
+wrk.method = "POST"
+wrk.headers["Content-Type"] = "application/json"
+wrk.headers["Accept"] = "text/plain"
+wrk.body = "{\"name\": \"world\"}"
+```
+
+Store above script in `post.lua` and execute command bellow:
+
+```shell
+wrk -c5 -t5 -d15s --script=/tmp/post.lua --latency http://43.129.176.183:30088/hello
+Running 15s test @ http://43.129.176.183:30088/hello
+  5 threads and 5 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   454.12ms  392.86ms   1.06s    33.04%
+    Req/Sec     5.40      6.29    30.00     94.12%
+  Latency Distribution
+     50%  498.63ms
+     75%  939.13ms
+     90%  972.75ms
+     99%    1.05s
+  165 requests in 15.04s, 31.24KB read
+Requests/sec:     10.97
+Transfer/sec:      2.08KB
+```
+
+Adjust the limit rate as you hope and run the test below. **One more thing to note, keep the option of *thread* and *connection* same for wrk.**
+
+### 4.2. Cricuit Breaker
+
+Go into config [circuit-breaker.json](scripts/dubbo/config/circuit-breaker.json), and set value of `enable` to `true`. Now you enable the circuit breaker for service `io.flomesh.demo.dubbo.api.DemoHelloService:sayHello(Ljava/lang/String;)`. You can also find the fallback reponse there.
+
+Now you can try to send a request:
+
+```shell
+curl -i --location --request POST '43.129.176.183:30088/hello' --header 'Content-Type: application/json' --header 'Accept: text/plain' --data-raw '{"name": "world"}'
+HTTP/1.1 200
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 80
+Date: Sun, 27 Feb 2022 13:32:28 GMT
+
+V1-[hello-service] : Hello, world, Today is (2222-02-22), Time is (22:22:22.222)
+```
+
+It does respond the fallback responce instead of current date and time.
+
+###  4.3. Black/White List & ACL
+
+The balck/white list feature is same as SpringBoot one. Update the list in config [ban.json](scripts/dubbo/config/inbound/ban.json).
+
+In this demo, we just deployed `v1` version applications. So the `consumer-service-v2` in black list won't work, let update to `consumer-service-v1` and run the commad.
+
+```shell
+curl -i --location --request POST '43.129.176.183:30088/hello' --header 'Content-Type: application/json' --header 'Accept: text/plain' --data-raw '{"name": "world"}'
+HTTP/1.1 500
+Content-Length: 0
+Date: Sun, 27 Feb 2022 13:31:33 GMT
+Connection: close
+```
+
+This setting means that `Hello Servie` deny all requet from `consumer-service-v1`. And the `Consumer Service` responds with HTTP 500, and you will find exception thrown. As best practice, it's better to handle exception for Dubbo RPC. We simplify this with thrown exception directly.
+
+## 5. Observability
+
+### 5.1. Logging
 
 Request and response loggged into Clickhouse.
 
-### 2.6. Tracing
+
+### 5.2. Tracing
 
 Implementing with OpenTelemetry. Logged together with req/res log, and stored in Clickhouse.
 
-### 2.7. Metrics
+### 5.3. Metrics
 
 Extract metrcis from Clickhouse and display via Grafana.
 
-## 3. More
+## 6. More
 
-### 3.1. How to access Pipy Repo?
+### 6.1. How to access Pipy Repo?
 
 The pipy repo deployed in cluster is exposed as node port `30060` and it's light without repo GUI. 
 
