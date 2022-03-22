@@ -81,6 +81,8 @@ spec:
     metadata:
       annotations:
         app.flomesh.io/name: consumer-service
+        prometheus.io/port: "6060"
+        prometheus.io/scrape: "true"
       labels:
         app: consumer-service
         app.flomesh.io/type: dubbo
@@ -212,6 +214,8 @@ spec:
     metadata:
       annotations:
         app.flomesh.io/name: date-service
+        prometheus.io/port: "6060"
+        prometheus.io/scrape: "true"
       labels:
         app: date-service
         app.flomesh.io/type: dubbo
@@ -343,6 +347,8 @@ spec:
     metadata:
       annotations:
         app.flomesh.io/name: hello-service
+        prometheus.io/port: "6060"
+        prometheus.io/scrape: "true"
       labels:
         app: hello-service
         app.flomesh.io/type: dubbo
@@ -474,6 +480,8 @@ spec:
     metadata:
       annotations:
         app.flomesh.io/name: time-service
+        prometheus.io/port: "6060"
+        prometheus.io/scrape: "true"
       labels:
         app: time-service
         app.flomesh.io/type: dubbo

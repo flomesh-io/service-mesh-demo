@@ -6,6 +6,10 @@ metadata:
     sidecar-injected: true
 spec:
   template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '6060'
     spec:
       volumes:
         - name: cache-volume
