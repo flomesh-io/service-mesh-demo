@@ -36,7 +36,7 @@ pipy({
           _iface.black?.[__service.remote]
         )
       ),
-      __turnDown && _requestCounter.withLabels(__serviceID, __serviceID.version).increase()
+      __turnDown && _requestCounter.withLabels(__serviceID, __service.version).increase()
     )
   )
   .replaceMessage(
